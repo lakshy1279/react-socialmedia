@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 class PostList extends React.Component {
   render() {
     const { posts } = this.props;
