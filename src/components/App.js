@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../actions/posts';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
-import { PostList } from './';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { PostList, Navbar, Home, Page404 } from './';
 class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
@@ -12,61 +12,23 @@ class App extends React.Component {
     console.log('PROPS', this.props);
     const { posts } = this.props;
     return (
-      <div>
-        <nav className="nav">
-          <div className="left-div">
-            <img
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
+      <Router>
+        <div>
+          <Navbar />
+          <Switch>
+            <Route
+              path="/"
+              exact
+              render={(props) => {
+                return <Home {...props} posts={posts} />;
+              }}
             />
-          </div>
-          <div className="search-container">
-            <img
-              className="search-icon"
-              src="https://image.flaticon.com/icons/svg/483/483356.svg"
-              alt="search-icon"
-            />
-            <input placeholder="Search" />
-
-            <div className="search-results">
-              <ul>
-                <li className="search-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-                <li className="search-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="right-nav">
-            <div className="user">
-              <img
-                src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                alt="user-dp"
-                id="user-dp"
-              />
-              <span>John Doe</span>
-            </div>
-            <div className="nav-links">
-              <ul>
-                <li>Log in</li>
-                <li>Log out</li>
-                <li>Register</li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        <PostList posts={posts} />
-      </div>
+            {/* <Route path="/login" component={login} />
+            <Route path="/signup" component={signup}/> */}
+            <Route component={Page404} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }
