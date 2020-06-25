@@ -1,4 +1,11 @@
-import { LOGIN_START, LOGIN_FAILED, LOGIN_SUCCESS } from './actionTypes';
+import {
+  LOGIN_START,
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILED,
+  SIGNUP_START,
+} from './actionTypes';
 import { func } from 'prop-types';
 import { APIUrls } from '../helpers/urls';
 import { getFormBody } from '../helpers/utilis';
@@ -39,5 +46,45 @@ export function login(email, password) {
         }
         dispatch(loginFailed(data.message));
       });
+  };
+}
+
+//signup
+export function signup(email, password, name, confirmPassword) {
+  return (dispatch) => {
+    const url = APIUrls.signup();
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: getFormBody({ name, email, password, confirmPassword }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data', data);
+        if (data.success) {
+          //dispatch action to create user
+          dispatch(signupSuccessful(data.data.user));
+        }
+        dispatch(signupFailed(data.message));
+      });
+  };
+}
+export function startSignup() {
+  return {
+    type: SIGNUP_START,
+  };
+}
+export function signupFailed(error) {
+  return {
+    type: SIGNUP_FAILED,
+    error,
+  };
+}
+export function signupSuccessful(user) {
+  return {
+    type: SIGNUP_SUCCESS,
+    user,
   };
 }
