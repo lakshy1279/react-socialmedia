@@ -29,9 +29,11 @@ class Signup extends Component {
     console.log('this.state', this.state);
   };
   render() {
+    const { error, inProgress } = this.props.auth;
     return (
       <form className="login-form">
         <span className="login-signup-header">Sign Up</span>
+        {error && <div className="alert error-dailog">{error}</div>}
         <div className="field">
           <input
             type="text"
@@ -66,9 +68,15 @@ class Signup extends Component {
             }
           />
         </div>
-        <div className="field">
-          <button onClick={this.handleFormSubmit}>Sign Up</button>
-        </div>
+        {inProgress ? (
+          <div className="field">
+            <button disabled={inProgress}>Sign Up</button>
+          </div>
+        ) : (
+          <div className="field">
+            <button onClick={this.handleFormSubmit}>Sign Up</button>
+          </div>
+        )}
       </form>
     );
   }

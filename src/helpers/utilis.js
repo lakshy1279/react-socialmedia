@@ -2,6 +2,7 @@ const { func } = require('prop-types');
 
 export function getFormBody(params) {
   let formBody = [];
+  console.log(params);
   for (let property in params) {
     console.log(property);
     let encodeKey = encodeURIComponent(property); //user name=>user%20name

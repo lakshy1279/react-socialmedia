@@ -42,7 +42,9 @@ export function login(email, password) {
         console.log('data', data);
         if (data.success) {
           //dispatch action to save user
+          localStorage.setItem('token', data.data.token);
           dispatch(loginSuccess(data.data.user));
+          return;
         }
         dispatch(loginFailed(data.message));
       });
@@ -58,14 +60,21 @@ export function signup(email, password, name, confirmPassword) {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: getFormBody({ name, email, password, confirmPassword }),
+      body: getFormBody({
+        email,
+        password,
+        name,
+        confirm_password: confirmPassword,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log('data', data);
         if (data.success) {
           //dispatch action to create user
+          localStorage.setItem('token', data.data.token);
           dispatch(signupSuccessful(data.data.user));
+          return;
         }
         dispatch(signupFailed(data.message));
       });
