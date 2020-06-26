@@ -1,10 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logoutUser } from '../actions/auth';
 
 class Navbar extends React.Component {
+  logout = () => {
+    localStorage.removeItem('token');
+    this.props.dispatch(logoutUser());
+  };
   render() {
-    const { isLoggedin } = this.props.auth;
+    const { isLoggedin, user } = this.props.auth;
     return (
       <div>
         <nav className="nav">
@@ -49,23 +54,22 @@ class Navbar extends React.Component {
                   alt="user-dp"
                   id="user-dp"
                 />
-                <span>John Doe</span>
+                <span>{user.name}</span>
               </div>
             )}
             <div className="nav-links">
               <ul>
-                {!isLoggedin ? (
+                {!isLoggedin && (
                   <li>
                     <Link to="/login">Log in</Link>
                   </li>
-                ) : (
+                )}
+                {!isLoggedin && (
                   <li>
-                    <Link to="/logout">Log out</Link>
+                    <Link to="/signup">Register</Link>
                   </li>
                 )}
-                <li>
-                  <Link to="/signup">Register</Link>
-                </li>
+                {isLoggedin && <li onClick={this.logout}>Log out</li>}
               </ul>
             </div>
           </div>

@@ -5,6 +5,9 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_FAILED,
   SIGNUP_START,
+  AUTHENTICATE_USER,
+  LOG_OUT,
+  CLEAR_AUTH_STATE,
 } from './actionTypes';
 import { func } from 'prop-types';
 import { APIUrls } from '../helpers/urls';
@@ -95,5 +98,21 @@ export function signupSuccessful(user) {
   return {
     type: SIGNUP_SUCCESS,
     user,
+  };
+}
+export function authenticateUser(user) {
+  return {
+    type: AUTHENTICATE_USER,
+    user,
+  };
+}
+export function logoutUser() {
+  return {
+    type: LOG_OUT,
+  };
+}
+export function clearAuthState() {
+  return {
+    type: CLEAR_AUTH_STATE,
   };
 }
