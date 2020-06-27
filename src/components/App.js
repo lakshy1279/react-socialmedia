@@ -8,10 +8,10 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { Navbar, Home, Page404, Login, Signup } from './';
+import { Navbar, Home, Page404, Login, Signup, Settings } from './';
 import * as jwtDecode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
-const Settings = () => <div>Setting</div>;
+import { getAuthTokenFromLocalStorage } from '../helpers/utilis';
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
   return (
@@ -21,7 +21,14 @@ const PrivateRoute = (privateRouteProps) => {
         return isLoggedin ? (
           <Component props={props} />
         ) : (
-          <Redirect to="/login" />
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: {
+                from: props.location,
+              },
+            }}
+          />
         );
       }}
     />
@@ -31,7 +38,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPosts());
 
-    const token = localStorage.getItem('token');
+    const token = getAuthTokenFromLocalStorage();
     if (token) {
       const user = jwtDecode(token);
       this.props.dispatch(
