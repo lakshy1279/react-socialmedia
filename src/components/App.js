@@ -8,7 +8,7 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import { Navbar, Home, Page404, Login, Signup, Settings } from './';
+import { Navbar, Home, Page404, Login, Signup, Settings, User } from './';
 import * as jwtDecode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
 import { getAuthTokenFromLocalStorage } from '../helpers/utilis';
@@ -66,6 +66,11 @@ class App extends React.Component {
             <PrivateRoute
               path="/setting"
               component={Settings}
+              isLoggedin={auth.isLoggedin}
+            />
+            <PrivateRoute
+              path="/user/:userId"
+              component={User}
               isLoggedin={auth.isLoggedin}
             />
             <Route component={Page404} />
