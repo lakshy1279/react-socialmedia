@@ -14,10 +14,12 @@ class Navbar extends React.Component {
       <div>
         <nav className="nav">
           <div className="left-div">
-            <img
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
-            />
+            <Link to="/">
+              <img
+                src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
+                alt="logo"
+              />
+            </Link>
           </div>
           <div className="search-container">
             <img

@@ -12,6 +12,7 @@ import { Navbar, Home, Page404, Login, Signup, Settings, User } from './';
 import * as jwtDecode from 'jwt-decode';
 import { authenticateUser } from '../actions/auth';
 import { getAuthTokenFromLocalStorage } from '../helpers/utilis';
+import { friends } from '../actions/friend';
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
   return (
@@ -44,11 +45,12 @@ class App extends React.Component {
       this.props.dispatch(
         authenticateUser({ email: user.email, _id: user._id, name: user.name })
       );
+      this.props.dispatch(friends());
     }
   }
   render() {
     console.log('PROPS', this.props);
-    const { posts, auth } = this.props;
+    const { posts, auth, friends } = this.props;
     return (
       <Router>
         <div>
@@ -58,7 +60,14 @@ class App extends React.Component {
               path="/"
               exact
               render={(props) => {
-                return <Home {...props} posts={posts} />;
+                return (
+                  <Home
+                    {...props}
+                    posts={posts}
+                    friends={friends}
+                    isLoggedin={auth.isLoggedin}
+                  />
+                );
               }}
             />
             <Route path="/login" component={Login} />
@@ -85,6 +94,7 @@ function mapStateToProps(state) {
   return {
     posts: state.posts,
     auth: state.auth,
+    friends: state.friends,
   };
 }
 export default connect(mapStateToProps)(App);
