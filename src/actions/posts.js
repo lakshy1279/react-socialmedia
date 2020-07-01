@@ -88,7 +88,6 @@ export function addLikeToStore(id, likeType, userId) {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: getFormBody({ content, post_id: postId }),
     })
       .then((response) => response.json())
       .then((data) => {

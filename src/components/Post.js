@@ -33,7 +33,7 @@ class Post extends Component {
   render() {
     const { post, user } = this.props;
     const { comment } = this.state;
-    const isPostLikeByUser = post.likes.include(user._id);
+    const isPostLikeByUser = post.likes.includes(user._id);
     return (
       <div className="post-wrapper" key={post._id}>
         <div className="post-header">
@@ -64,10 +64,6 @@ class Post extends Component {
                   alt="likes-icon"
                 />
               )}
-              <img
-                src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
-                alt="likes-icon"
-              />
               <span>{post.likes.length}</span>
             </button>
 
@@ -87,7 +83,6 @@ class Post extends Component {
               onKeyPress={this.handleKeyPress}
             />
           </div>
-
           <div className="post-comments-list">
             {post.comments.map((comment) => (
               <Comment comment={comment} key={comment._id} postId={post._id} />
