@@ -15,7 +15,7 @@ export function fetchPosts() {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        console.log(data.data.posts);
         dispatch(updatePosts(data.data.posts));
       });
   };
@@ -32,7 +32,7 @@ export function addPost(post) {
     post,
   };
 }
-export function createPost(content) {
+export function createPost(content, user) {
   return (dispatch) => {
     const url = APIUrls.createPost();
     fetch(url, {
@@ -41,7 +41,7 @@ export function createPost(content) {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: getFormBody({ content }),
+      body: getFormBody({ content, user }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -52,7 +52,7 @@ export function createPost(content) {
       });
   };
 }
-export function createComment(content, postId) {
+export function createComment(content, postId, user) {
   return (dispatch) => {
     const url = APIUrls.createComment();
     fetch(url, {
@@ -61,7 +61,7 @@ export function createComment(content, postId) {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
       },
-      body: getFormBody({ content, post_id: postId }),
+      body: getFormBody({ content, post_id: postId, user }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -91,9 +91,9 @@ export function addLikeToStore(id, likeType, userId) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Like_Data', data);
-        if (data.success) {
-          dispatch(addLike(id, userId));
+        console.log('Like_Data', data.data.user);
+        if (!data.success) {
+          dispatch(addLike(id, data.data.user));
         }
       });
   };

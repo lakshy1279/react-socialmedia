@@ -20,7 +20,7 @@ export function friends() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('friends', data);
+        console.log('friends', data.data.friends);
         dispatch(fetchUserFriends(data.data.friends));
         return;
       });

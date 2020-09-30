@@ -38,6 +38,6 @@ export function fetchUserProfile(userId) {
         dispatch(userProfileSuccess(data.data.user));
         return;
       });
-    //   dispatch(userProfileFailure())
+    dispatch(userProfileFailure());
   };
 }

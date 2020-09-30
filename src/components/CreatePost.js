@@ -9,7 +9,7 @@ class CreatePost extends Component {
     };
   }
   handleOnClick = () => {
-    this.props.dispatch(createPost(this.state.content));
+    this.props.dispatch(createPost(this.state.content, this.props.user));
     this.setState({
       content: '',
     });
@@ -36,5 +36,9 @@ class CreatePost extends Component {
     );
   }
 }
-
-export default connect()(CreatePost);
+function mapStateToProps({ auth }) {
+  return {
+    user: auth.user,
+  };
+}
+export default connect(mapStateToProps)(CreatePost);

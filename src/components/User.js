@@ -45,7 +45,7 @@ class User extends Component {
   };
   handleAddFriendClick = async () => {
     const userId = this.props.props.match.params.userId;
-    const url = APIUrls.addFriend(userId);
+    const url = APIUrls.addFriend(userId, this.props.curr_user._id);
     const options = {
       method: 'POST',
       headers: {
@@ -145,10 +145,11 @@ class User extends Component {
     );
   }
 }
-function mapStateToProps({ profile, friends }) {
+function mapStateToProps({ profile, friends, auth }) {
   return {
     profile,
     friends,
+    curr_user: auth.user,
   };
 }
 export default connect(mapStateToProps)(User);

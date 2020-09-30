@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PostList, FriendList } from './';
+import { PostList, FriendList, Chat } from './';
 class Home extends Component {
   render() {
     const { posts, friends, isLoggedin } = this.props;
@@ -7,6 +7,7 @@ class Home extends Component {
       <div className="home">
         <PostList posts={posts} />
         {isLoggedin && <FriendList friends={friends} />}
+        {isLoggedin && <Chat />}
       </div>
     );
   }
